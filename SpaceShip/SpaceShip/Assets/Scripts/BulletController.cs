@@ -9,22 +9,16 @@ public class BulletController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        // O tiro sempre vai pra cima (no eixo Y local da nave)
         rb.linearVelocity = transform.right * speed;
-
-        // Destroi o tiro depois de 3 segundos para não poluir a cena
         Destroy(gameObject, 3f);
     }
 
-    // Se o tiro colidir com algo (marcado como Trigger)
-    // BulletController.cs (trecho modificado)
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Enemy"))
         {
-            // --- ADICIONA PONTOS CHAMANDO O GAMEMANAGER ---
-            GameManager.Instance.AddScore(10); // Dá 10 pontos por inimigo
-            
+            // O GameManager adiciona os pontos, mas a lógica de dano
+            // está no próprio inimigo, então só precisamos destruir.
             Destroy(other.gameObject);
             Destroy(gameObject);
         }
